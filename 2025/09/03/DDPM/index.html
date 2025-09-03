@@ -6,15 +6,15 @@
   
   <title>DDPM | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。  直观感受源自非平衡态热力学的启发DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一滴墨水">
+  <meta name="description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDPM">
 <meta property="og:url" content="http://example.com/2025/09/03/DDPM/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。  直观感受源自非平衡态热力学的启发DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一滴墨水">
+<meta property="og:description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-09-03T12:03:36.000Z">
-<meta property="article:modified_time" content="2025-09-03T12:08:46.639Z">
+<meta property="article:modified_time" content="2025-09-03T12:09:55.871Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -96,7 +96,7 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h1 id="DDPM：扩散模型梦开始的地方"><a href="#DDPM：扩散模型梦开始的地方" class="headerlink" title="DDPM：扩散模型梦开始的地方"></a>DDPM：扩散模型梦开始的地方</h1><h2 id="为什么是-DDPM"><a href="#为什么是-DDPM" class="headerlink" title="为什么是 DDPM"></a>为什么是 DDPM</h2><p>答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。</p>
-<!--Read More-->
+<span id="more"></span>
 <h2 id="直观感受"><a href="#直观感受" class="headerlink" title="直观感受"></a>直观感受</h2><h3 id="源自非平衡态热力学的启发"><a href="#源自非平衡态热力学的启发" class="headerlink" title="源自非平衡态热力学的启发"></a>源自非平衡态热力学的启发</h3><p>DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一滴墨水在水中逐渐散开，最终均匀分布，这是一个从有序到无序的过程。DDPM通过学习这个过程的逆过程，从完全无序的噪声中逐步恢复出有序、清晰的图案。</p>
 <h4 id="前向扩散过程"><a href="#前向扩散过程" class="headerlink" title="前向扩散过程"></a>前向扩散过程</h4><p>这个过程是非平衡热力学中的熵增过程，系统从有序变得无序。在DDPM中，这个过程表现为一张图像和一个高斯噪声按照一定比例混合，形成新的图像，经过多次上述操作后，我们可以得到一张约为完全噪音的图像。</p>
 <h4 id="反向去噪过程"><a href="#反向去噪过程" class="headerlink" title="反向去噪过程"></a>反向去噪过程</h4><p>这个过程是前向扩散过程的逆过程，系统从无序变得有序。在DDPM中，这个过程表现为，给模型一张带有噪音的图像，模型尝试生成其中噪音的部分并将其去除。给模型一张纯噪音图像，经过多次去噪，我们就有可能得到一张清晰的图像。</p>
