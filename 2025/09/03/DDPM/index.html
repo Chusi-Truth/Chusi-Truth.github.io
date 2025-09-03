@@ -6,12 +6,12 @@
   
   <title>DDPM | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
+  <meta name="description" content="DDPM：扩散模型梦开始的地方 为什么是 DDPM 答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDPM">
 <meta property="og:url" content="http://example.com/2025/09/03/DDPM/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="DDPM：扩散模型梦开始的地方为什么是 DDPM答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
+<meta property="og:description" content="DDPM：扩散模型梦开始的地方 为什么是 DDPM 答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-09-03T12:03:36.000Z">
 <meta property="article:modified_time" content="2025-09-03T12:09:55.871Z">
@@ -95,83 +95,303 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="DDPM：扩散模型梦开始的地方"><a href="#DDPM：扩散模型梦开始的地方" class="headerlink" title="DDPM：扩散模型梦开始的地方"></a>DDPM：扩散模型梦开始的地方</h1><h2 id="为什么是-DDPM"><a href="#为什么是-DDPM" class="headerlink" title="为什么是 DDPM"></a>为什么是 DDPM</h2><p>答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。</p>
+        <h1 id="ddpm扩散模型梦开始的地方">DDPM：扩散模型梦开始的地方</h1>
+<h2 id="为什么是-ddpm">为什么是 DDPM</h2>
+<p>答案很简单：因为最近扩散模型很火，因此为了蹭上一波热度开始了解扩散模型的方向。DDPM作为一个比较经典的扩散模型，具有较为复杂的数学推导。在学习过程中容易出现理论与代码实践切割的情况。因此这篇文章希望能够统一地介绍DDPM的数学原理以及具体的代码实现。</p>
 <span id="more"></span>
-<h2 id="直观感受"><a href="#直观感受" class="headerlink" title="直观感受"></a>直观感受</h2><h3 id="源自非平衡态热力学的启发"><a href="#源自非平衡态热力学的启发" class="headerlink" title="源自非平衡态热力学的启发"></a>源自非平衡态热力学的启发</h3><p>DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一滴墨水在水中逐渐散开，最终均匀分布，这是一个从有序到无序的过程。DDPM通过学习这个过程的逆过程，从完全无序的噪声中逐步恢复出有序、清晰的图案。</p>
-<h4 id="前向扩散过程"><a href="#前向扩散过程" class="headerlink" title="前向扩散过程"></a>前向扩散过程</h4><p>这个过程是非平衡热力学中的熵增过程，系统从有序变得无序。在DDPM中，这个过程表现为一张图像和一个高斯噪声按照一定比例混合，形成新的图像，经过多次上述操作后，我们可以得到一张约为完全噪音的图像。</p>
-<h4 id="反向去噪过程"><a href="#反向去噪过程" class="headerlink" title="反向去噪过程"></a>反向去噪过程</h4><p>这个过程是前向扩散过程的逆过程，系统从无序变得有序。在DDPM中，这个过程表现为，给模型一张带有噪音的图像，模型尝试生成其中噪音的部分并将其去除。给模型一张纯噪音图像，经过多次去噪，我们就有可能得到一张清晰的图像。</p>
-<h2 id="数学原理"><a href="#数学原理" class="headerlink" title="数学原理"></a>数学原理</h2><p>针对上述直观的过程，我们下面进行较为严格的数学推导。</p>
-<h3 id="加噪与去噪"><a href="#加噪与去噪" class="headerlink" title="加噪与去噪"></a>加噪与去噪</h3><p>我们首先定义时间步 $T$ ，这表示我们总共需要加噪，去噪 $T$ 次之后才能得到一张完全的噪声图像或生成图像。特别地，我们使用 $x_t$ 表示目前的图像被加噪了多少次。$x_0$ 表示这是一张没有经过加噪的正常图像，$x_T$ 表示这是一张经过 $T$ 次加噪后得到的一张噪声图像。</p>
+<h2 id="直观感受">直观感受</h2>
+<h3 id="源自非平衡态热力学的启发">源自非平衡态热力学的启发</h3>
+<p>DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一滴墨水在水中逐渐散开，最终均匀分布，这是一个从有序到无序的过程。DDPM通过学习这个过程的逆过程，从完全无序的噪声中逐步恢复出有序、清晰的图案。</p>
+<h4 id="前向扩散过程">前向扩散过程</h4>
+<p>这个过程是非平衡热力学中的熵增过程，系统从有序变得无序。在DDPM中，这个过程表现为一张图像和一个高斯噪声按照一定比例混合，形成新的图像，经过多次上述操作后，我们可以得到一张约为完全噪音的图像。</p>
+<h4 id="反向去噪过程">反向去噪过程</h4>
+<p>这个过程是前向扩散过程的逆过程，系统从无序变得有序。在DDPM中，这个过程表现为，给模型一张带有噪音的图像，模型尝试生成其中噪音的部分并将其去除。给模型一张纯噪音图像，经过多次去噪，我们就有可能得到一张清晰的图像。</p>
+<h2 id="数学原理">数学原理</h2>
+<p>针对上述直观的过程，我们下面进行较为严格的数学推导。</p>
+<h3 id="加噪与去噪">加噪与去噪</h3>
+<p>我们首先定义时间步 <span class="math inline"><em>T</em></span>
+，这表示我们总共需要加噪，去噪 <span
+class="math inline"><em>T</em></span>
+次之后才能得到一张完全的噪声图像或生成图像。特别地，我们使用 <span
+class="math inline"><em>x</em><sub><em>t</em></sub></span>
+表示目前的图像被加噪了多少次。<span
+class="math inline"><em>x</em><sub>0</sub></span>
+表示这是一张没有经过加噪的正常图像，<span
+class="math inline"><em>x</em><sub><em>T</em></sub></span>
+表示这是一张经过 <span class="math inline"><em>T</em></span>
+次加噪后得到的一张噪声图像。</p>
 <p>加噪过程的每一步，都只与当前图像有关，而与再之前的图像无关。这说明，加噪过程是一个马尔科夫链。去噪过程我们也假设可以写成一个马尔科夫链。</p>
-<p>对于加噪过程，DDPM定义为：<br>$$<br>q(x_t|x_{t-1}):&#x3D;\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t \mathbf{I})<br>$$</p>
-<p>对于去噪过程，DDPM 定义为：<br>$$<br>p_\theta(x_{t-1}|x_t):&#x3D;\mathcal{N}（x_{t-1};\mu_\theta(x_t,t),\Sigma_\theta(x_t,t))<br>\<br>$$<br>另外，还有加噪轨迹和去噪轨迹：<br>$$<br>q(x_{1:T}|x_0):&#x3D;\prod_{t&#x3D;1}^Tq(x_t|x_{t-1})<br>\p_\theta(x_{0:T}):&#x3D;p(x_T)\prod_{t&#x3D;1}^Tp_\theta(x_{t-1}|x_t)<br>$$</p>
+<p>对于加噪过程，DDPM定义为： <span class="math display">$$
+q(x_t|x_{t-1}):=\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t
+\mathbf{I})
+$$</span></p>
+<p>对于去噪过程，DDPM 定义为： <span class="math display">$$
+p_\theta(x_{t-1}|x_t):=\mathcal{N}（x_{t-1};\mu_\theta(x_t,t),\Sigma_\theta(x_t,t))
+\\
+$$</span> 另外，还有加噪轨迹和去噪轨迹： <span class="math display">$$
+q(x_{1:T}|x_0):=\prod_{t=1}^Tq(x_t|x_{t-1})
+\\p_\theta(x_{0:T}):=p(x_T)\prod_{t=1}^Tp_\theta(x_{t-1}|x_t)
+$$</span> &gt; [!note] &gt; &gt; 其中，<span
+class="math inline">{<em>β</em><sub><em>t</em></sub>}</span>
+是一族超参数，不需要模型学习。去噪过程中高斯分布的均值和方差与图像和时间步相关，在具体实现的时候。DDPM
+将 <span class="math inline"><em>Σ</em><sub><em>θ</em></sub></span>
+设为了一组只和时间步相关的常数 <span
+class="math inline"><em>σ</em><sub><em>t</em></sub><sup>2</sup></span></p>
+<h3 id="损失函数">损失函数</h3>
+<p>由于我们从噪声生成图像的过程中，希望能够生成给定的图像 <span
+class="math inline"><em>x</em><sub>0</sub></span> ，因此我们要计算 <span
+class="math inline"><em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>)</span>
+: <span class="math display">$$
+p_\theta(x_0)=\int p_\theta(x_{0:T})dx_{1:T}
+\\
+p_\theta(x_{0:T}):=p(x_T)\prod_{t=1}^{T}p_\theta(x_{t-1}|x_t)
+\\
+p_\theta(x_{t-1}|x_t):=\mathcal{N}(x_{t-1};\mu_\theta(x_t,t),\Sigma_\theta(x_t,t))
+$$</span></p>
+<p>模型学习的分布应当尽量与数据集中的分布一致，而我们可以把数据集中每一个图像看作一类。这样，我们可以把
+DDPM
+看作一个分类模型（虽然数据是连续的）：给定一个高斯噪声，通过不断去噪得到它正确的分类（图像结果），因此我们可以用交叉熵作为损失函数。
+<span
+class="math display">𝔼[−log <em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>)]</span>
+然而，在实际过程中我们很难计算 <span
+class="math inline"><em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>)</span>
+， 因此通过变分推断近似解决： $$ [-p_(x_0)] _{x_0,q}[-]</p>
+<p>\=_{x_0,q}[-p(x_T)-_{t }]=:L $$</p>
 <blockquote>
 <p>[!note]</p>
-<p>其中，${\beta_t}$ 是一族超参数，不需要模型学习。去噪过程中高斯分布的均值和方差与图像和时间步相关，在具体实现的时候。DDPM 将 $\Sigma_\theta$ 设为了一组只和时间步相关的常数 $\sigma_t^2$</p>
-</blockquote>
-<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>由于我们从噪声生成图像的过程中，希望能够生成给定的图像 $x_0$ ，因此我们要计算 $p_\theta(x_0)$ :<br>$$<br>p_\theta(x_0)&#x3D;\int p_\theta(x_{0:T})dx_{1:T}<br>\<br>p_\theta(x_{0:T}):&#x3D;p(x_T)\prod_{t&#x3D;1}^{T}p_\theta(x_{t-1}|x_t)<br>\<br>p_\theta(x_{t-1}|x_t):&#x3D;\mathcal{N}(x_{t-1};\mu_\theta(x_t,t),\Sigma_\theta(x_t,t))<br>$$</p>
-<p>模型学习的分布应当尽量与数据集中的分布一致，而我们可以把数据集中每一个图像看作一类。这样，我们可以把 DDPM 看作一个分类模型（虽然数据是连续的）：给定一个高斯噪声，通过不断去噪得到它正确的分类（图像结果），因此我们可以用交叉熵作为损失函数。<br>$$<br>\mathbb{E}[-\log p_\theta(x_0)]<br>$$<br>然而，在实际过程中我们很难计算 $p_\theta(x_0)$ ， 因此通过变分推断近似解决：<br>$$<br>\mathbb{E}[-\log p_\theta(x_0)] \le \mathbb{E}<em>{x_0,q}[-\log\frac{p</em>\theta(x_{0:T})}{q(x_{1:T}|x_0)}]</p>
-<p>\&#x3D;\mathbb{E}<em>{x_0,q}[-\log p(x_T)-\sum</em>{t \ge 1}\log\frac{p_\theta(x_{t-1}|x_t)}{q(x_t|x_{t-1})}]&#x3D;:L<br>$$</p>
-<blockquote>
-<p>[!note]</p>
-<p>观察不等式的两边，我们注意到，通过变分推断，我们避免了计算难以解析的高维积分，而是通过改为计算 $\log\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}$ 对分布 $q(x_{1:T|x_0})$ 的期望来计算 $\log p_\theta(x_0)$ 的下界。</p>
+<p>观察不等式的两边，我们注意到，通过变分推断，我们避免了计算难以解析的高维积分，而是通过改为计算
+<span
+class="math inline">$\log\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}$</span>
+对分布 <span
+class="math inline"><em>q</em>(<em>x</em><sub>1 : <em>T</em>|<em>x</em><sub>0</sub></sub>)</span>
+的期望来计算 <span
+class="math inline">log <em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>)</span>
+的下界。</p>
 <p>因此，需要注意损失函数实际上要最小化的是两层期望。</p>
-<p><a href="#%E8%AF%81%E6%98%8E%E9%99%84%E5%BD%95">详细证明见附录</a></p>
+<p><a href="#证明附录">详细证明见附录</a></p>
 </blockquote>
-<p>通过变换，$L$ 可以被重写为如下形式：<br>$$<br>\mathbb{E}<em>{x_0,q}[D</em>{KL}(q(x_T|x_0)||p(x_T))+\sum_{t&gt;1}D_{KL}(q(x_{t-1}|x_t,x_0)||p_\theta(x_{t-1}|x_t))<br>\-\log p_\theta(x_0|x_1)]<br>$$<br>期望中从左到右的三项分别称之为 $L_T, L_{t-1}, L_0$。这样写的好处在于，我们可以对模型训练的目标有一个清晰而直观的理解：</p>
-<p>$L_T$ 试图让加噪生成的噪声图像的分布尽量接近于生成图像时采样噪声的分布。在 DDPM 中，由于 $q$ 和 $p(x_T)$ 实际上都是已知的，因此 $L_T$ 是一个可以忽略的常数项。</p>
-<p>$L_{t-1}$ 试图让可学习的分布 $p_\theta$ 去尽量逼近加噪过程的逆过程。这实际上就是在学习预测噪声。</p>
-<p>$L_0$ 实际上就是负对数化似然。</p>
+<p>通过变换，<span class="math inline"><em>L</em></span>
+可以被重写为如下形式： <span class="math display">$$
+\mathbb{E}_{x_0,q}[D_{KL}(q(x_T|x_0)||p(x_T))+\sum_{t&gt;1}D_{KL}(q(x_{t-1}|x_t,x_0)||p_\theta(x_{t-1}|x_t))
+\\-\log p_\theta(x_0|x_1)]
+$$</span> 期望中从左到右的三项分别称之为 <span
+class="math inline"><em>L</em><sub><em>T</em></sub>, <em>L</em><sub><em>t</em> − 1</sub>, <em>L</em><sub>0</sub></span>。这样写的好处在于，我们可以对模型训练的目标有一个清晰而直观的理解：</p>
+<p><span class="math inline"><em>L</em><sub><em>T</em></sub></span>
+试图让加噪生成的噪声图像的分布尽量接近于生成图像时采样噪声的分布。在
+DDPM 中，由于 <span class="math inline"><em>q</em></span> 和 <span
+class="math inline"><em>p</em>(<em>x</em><sub><em>T</em></sub>)</span>
+实际上都是已知的，因此 <span
+class="math inline"><em>L</em><sub><em>T</em></sub></span>
+是一个可以忽略的常数项。</p>
+<p><span class="math inline"><em>L</em><sub><em>t</em> − 1</sub></span>
+试图让可学习的分布 <span
+class="math inline"><em>p</em><sub><em>θ</em></sub></span>
+去尽量逼近加噪过程的逆过程。这实际上就是在学习预测噪声。</p>
+<p><span class="math inline"><em>L</em><sub>0</sub></span>
+实际上就是负对数化似然。</p>
 <blockquote>
 <p>[!note]</p>
-<p>KL 散度是信息论中的一个概念，用来衡量两个分布之间的差异。<br>$$<br>D_{KL}(P||Q)&#x3D;\int P(X)\log \frac{P(X)}{Q(X)}dx<br>$$<br>性质：</p>
+<p>KL 散度是信息论中的一个概念，用来衡量两个分布之间的差异。 <span
+class="math display">$$
+D_{KL}(P||Q)=\int P(X)\log \frac{P(X)}{Q(X)}dx
+$$</span> 性质：</p>
 <ul>
-<li>非负性：取零时，当且仅当 $P&#x3D;Q$</li>
-<li>不对称性：$D_{KL}(P||Q) \ne D_{KL}(Q||P)$</li>
-<li>期望形式：$D_{KL}(P||Q)&#x3D;\mathbb{E}[\log P(x)-\log Q(x)]$</li>
+<li>非负性：取零时，当且仅当 <span
+class="math inline"><em>P</em> = <em>Q</em></span></li>
+<li>不对称性：<span
+class="math inline"><em>D</em><sub><em>K</em><em>L</em></sub>(<em>P</em>||<em>Q</em>) ≠ <em>D</em><sub><em>K</em><em>L</em></sub>(<em>Q</em>||<em>P</em>)</span></li>
+<li>期望形式：<span
+class="math inline"><em>D</em><sub><em>K</em><em>L</em></sub>(<em>P</em>||<em>Q</em>) = 𝔼[log <em>P</em>(<em>x</em>) − log <em>Q</em>(<em>x</em>)]</span></li>
 </ul>
 </blockquote>
 <blockquote>
 <p>[!important]</p>
-<p>一个令人疑惑的点是：$L_0$ 实际上也是预测噪声的一部分，为什么不能并入 $L_{t-1}$ 呢？</p>
-<p>问题在于，$t&#x3D;1$ 时的 KL 散度形式为：<br>$$<br>KL(q(x_0|x_1,x_0)||p_\theta(x_0|x_1))<br>$$<br>但是 $q(x_0|x_1,x_0)$ 是一个退化分布，退化分布与一半分布的 KL 散度不能写成常规形式，否则会遇到奇异性问题。</p>
+<p>一个令人疑惑的点是：<span
+class="math inline"><em>L</em><sub>0</sub></span>
+实际上也是预测噪声的一部分，为什么不能并入 <span
+class="math inline"><em>L</em><sub><em>t</em> − 1</sub></span> 呢？</p>
+<p>问题在于，<span class="math inline"><em>t</em> = 1</span> 时的 KL
+散度形式为： <span
+class="math display"><em>K</em><em>L</em>(<em>q</em>(<em>x</em><sub>0</sub>|<em>x</em><sub>1</sub>, <em>x</em><sub>0</sub>)||<em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>|<em>x</em><sub>1</sub>))</span>
+但是 <span
+class="math inline"><em>q</em>(<em>x</em><sub>0</sub>|<em>x</em><sub>1</sub>, <em>x</em><sub>0</sub>)</span>
+是一个退化分布，退化分布与一半分布的 KL
+散度不能写成常规形式，否则会遇到奇异性问题。</p>
 </blockquote>
-<h3 id="加噪技巧"><a href="#加噪技巧" class="headerlink" title="加噪技巧"></a>加噪技巧</h3><p>由于 DDPM 的性质，加噪是一步一步地进行的。这是否意味着我们如果想得到一张时间步 $t$ 的加噪图像，我们真的需要老老实实地加噪 $t$ 次呢？NO！实际上我们有：<br>$$<br>q(x_t|x_0)&#x3D;\mathcal{N}(x_t;\sqrt{\bar{\alpha_t}}x_0,(1-\bar{\alpha_t})\mathbf{I})<br>\<br>\alpha:&#x3D;1-\beta_t<br>\<br>\bar{\alpha_t}:&#x3D;\prod_{s&#x3D;1}^t\alpha_s<br>$$</p>
+<h3 id="加噪技巧">加噪技巧</h3>
+<p>由于 DDPM
+的性质，加噪是一步一步地进行的。这是否意味着我们如果想得到一张时间步
+<span class="math inline"><em>t</em></span>
+的加噪图像，我们真的需要老老实实地加噪 <span
+class="math inline"><em>t</em></span> 次呢？NO！实际上我们有： <span
+class="math display">$$
+q(x_t|x_0)=\mathcal{N}(x_t;\sqrt{\bar{\alpha_t}}x_0,(1-\bar{\alpha_t})\mathbf{I})
+\\
+\alpha:=1-\beta_t
+\\
+\bar{\alpha_t}:=\prod_{s=1}^t\alpha_s
+$$</span></p>
 <blockquote>
 <p>[!note]</p>
-<p>根据加噪的定义 $q(x_t|x_{t-1})&#x3D;\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t \mathbf{I})$ ，我们可以将它重新写为递推形式：<br>$$<br>x_t&#x3D;\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t<br>\<br>\epsilon \sim \mathcal{N}(0,\mathbf{I})<br>$$<br>我们递归地展开一项这个递推式，可以得到：<br>$$<br>x_{t+1}&#x3D;\sqrt{\alpha_{t+1}}(\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t)+\sqrt{1-\alpha_{t+1}}\epsilon_{t+1}<br>\<br>&#x3D;\sqrt{\alpha_{t+1}\alpha_t}x_{t-1}+\sqrt{\alpha_{t+1}(1-\alpha_t)}\epsilon_t+\sqrt{1-\alpha_{t+1}}\epsilon_{t+1}<br>$$<br>如果一直展开到 $x_0$ ，我们有：<br>$$<br>x_t&#x3D;\sqrt{\prod_{s&#x3D;1}^t\alpha_s}x_0+\sum_{s&#x3D;1}^t\sqrt{(1-\alpha_s)\prod_{j&#x3D;s+1}^t\alpha_j}\epsilon_s<br>$$<br>方差项通过数学归纳法可以发现等同于 $1-\bar{\alpha}_t$，均值项显然。</p>
+<p>根据加噪的定义 <span
+class="math inline">$q(x_t|x_{t-1})=\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t
+\mathbf{I})$</span> ，我们可以将它重新写为递推形式： <span
+class="math display">$$
+x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t
+\\
+\epsilon \sim \mathcal{N}(0,\mathbf{I})
+$$</span> 我们递归地展开一项这个递推式，可以得到： <span
+class="math display">$$
+x_{t+1}=\sqrt{\alpha_{t+1}}(\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t)+\sqrt{1-\alpha_{t+1}}\epsilon_{t+1}
+\\
+=\sqrt{\alpha_{t+1}\alpha_t}x_{t-1}+\sqrt{\alpha_{t+1}(1-\alpha_t)}\epsilon_t+\sqrt{1-\alpha_{t+1}}\epsilon_{t+1}
+$$</span> 如果一直展开到 <span
+class="math inline"><em>x</em><sub>0</sub></span> ，我们有： <span
+class="math display">$$
+x_t=\sqrt{\prod_{s=1}^t\alpha_s}x_0+\sum_{s=1}^t\sqrt{(1-\alpha_s)\prod_{j=s+1}^t\alpha_j}\epsilon_s
+$$</span> 方差项通过数学归纳法可以发现等同于 <span
+class="math inline">1 − <em>ᾱ</em><sub><em>t</em></sub></span>，均值项显然。</p>
 </blockquote>
-<h3 id="去噪技巧"><a href="#去噪技巧" class="headerlink" title="去噪技巧"></a>去噪技巧</h3><p>由于加噪的分布和尝试学习的分布都是高斯分布，根据多元高斯 KL 公式，$L_{t-1}$ 可以被重写为<a href="#%E8%AF%81%E6%98%8E%E9%99%84%E5%BD%95">如下形式：</a><br>$$<br>L_{t-1}&#x3D;\mathbb{E}_q[\frac{1}{2\sigma_t^2}||\tilde{\mu}<em>t(x_t,x_0)-\mu</em>\theta(x_t,t)||^2]+C<br>$$</p>
+<h3 id="去噪技巧">去噪技巧</h3>
+<p>由于加噪的分布和尝试学习的分布都是高斯分布，根据多元高斯 KL
+公式，<span
+class="math inline"><em>L</em><sub><em>t</em> − 1</sub></span>
+可以被重写为<a href="#证明附录">如下形式：</a> <span
+class="math display">$$
+L_{t-1}=\mathbb{E}_q[\frac{1}{2\sigma_t^2}||\tilde{\mu}_t(x_t,x_0)-\mu_\theta(x_t,t)||^2]+C
+$$</span></p>
 <blockquote>
 <p>[!note]</p>
-<p>可以算出：<br>$$<br>q(x_{t-1}|x_t,x_0)&#x3D;\mathcal{N}(x_{t-1};\tilde{\mu}<em>t(x_t,x_0),\tilde{\beta}<em>t\mathbf{I})<br>\<br>\tilde \mu_t(x_t,x_0):&#x3D;\frac{\sqrt{\bar \alpha</em>{t-1}}\beta_t}{1-\bar \alpha_t}x_0+\frac{\sqrt {\alpha_t}(1-\bar \alpha</em>{t-1})}{1-\bar \alpha_t}x_t<br>\<br>\tilde \beta_t:&#x3D;\frac{1-\bar{\alpha}_{t-1}}{1-\bar \alpha_t}\beta_t<br>$$</p>
+<p>可以算出： <span class="math display">$$
+q(x_{t-1}|x_t,x_0)=\mathcal{N}(x_{t-1};\tilde{\mu}_t(x_t,x_0),\tilde{\beta}_t\mathbf{I})
+\\
+\tilde \mu_t(x_t,x_0):=\frac{\sqrt{\bar \alpha_{t-1}}\beta_t}{1-\bar
+\alpha_t}x_0+\frac{\sqrt {\alpha_t}(1-\bar \alpha_{t-1})}{1-\bar
+\alpha_t}x_t
+\\
+\tilde \beta_t:=\frac{1-\bar{\alpha}_{t-1}}{1-\bar \alpha_t}\beta_t
+$$</span></p>
 </blockquote>
 <blockquote>
 <p>[!important]</p>
-<p>这里可能存在一个疑惑：对 $q$ 求期望，但是期望项里并没有出现 $q$ 啊？在这里我们可以把 $q$ 理解为一次采样过程。其中 $x_t$ 和 $t$ 就是在时间步 $t$ 时的结果。</p>
+<p>这里可能存在一个疑惑：对 <span class="math inline"><em>q</em></span>
+求期望，但是期望项里并没有出现 <span
+class="math inline"><em>q</em></span> 啊？在这里我们可以把 <span
+class="math inline"><em>q</em></span> 理解为一次采样过程。其中 <span
+class="math inline"><em>x</em><sub><em>t</em></sub></span> 和 <span
+class="math inline"><em>t</em></span> 就是在时间步 <span
+class="math inline"><em>t</em></span> 时的结果。</p>
 </blockquote>
-<p>对于重写的损失形式，一个直觉是我们直接学习 $\tilde \mu_t$ 。然而通过进一步展开上述损失，我们可以得到：<br>$$<br>L_{t-1}-C&#x3D;\mathbb E_{x_0,\epsilon}[\frac{1}{2\sigma^2_t}||\frac{1}{\sqrt \alpha_t}(x_t(x_0,\epsilon)-\frac{\beta_t}{\sqrt{1-\bar \alpha_t}}\epsilon)-\mu_\theta(x_t(x_0,\epsilon),t)||^2]<br>$$<br>因此在去噪的时候，DDPM 实际上是先学习去噪分布的均值 $\mu_\theta(x_t,t)&#x3D;\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{\sqrt{1-\bar \alpha_t}}\epsilon)$，再在这个均值上添加一个随机噪声 $x_{t-1}&#x3D;\mu_\theta(x_t,t)+\sigma_t\mathbf z$，得到去噪图像的。</p>
-<p>一种现在更常见的操作是预测噪声：注意到上面对均值的预测中，由于 $x_t$ 可以直接作为输入，实际上只有噪声是需要预测的未知量。因此一个motivating 的选择是：<br>$$<br>\mu_\theta(x_t,t)&#x3D;\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{\sqrt{1-\bar \alpha_t}}\epsilon_\theta(x_t,t))<br>$$<br>将其重新带回重写后的损失函数后可以得到：<br>$$<br>L_{t-1}-C&#x3D;\mathbb{E}<em>{x_0,\epsilon}[\frac{\beta_t^2}{2\sigma^2_t(1-\bar \alpha_t)}||\epsilon-\epsilon</em>\theta(\sqrt{\bar \alpha_t}x_0+\sqrt{1-\bar \alpha_t }\epsilon,t)||^2]<br>$$</p>
+<p>对于重写的损失形式，一个直觉是我们直接学习 <span
+class="math inline"><em>μ̃</em><sub><em>t</em></sub></span>
+。然而通过进一步展开上述损失，我们可以得到： <span
+class="math display">$$
+L_{t-1}-C=\mathbb E_{x_0,\epsilon}[\frac{1}{2\sigma^2_t}||\frac{1}{\sqrt
+\alpha_t}(x_t(x_0,\epsilon)-\frac{\beta_t}{\sqrt{1-\bar
+\alpha_t}}\epsilon)-\mu_\theta(x_t(x_0,\epsilon),t)||^2]
+$$</span> 因此在去噪的时候，DDPM 实际上是先学习去噪分布的均值 <span
+class="math inline">$\mu_\theta(x_t,t)=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{\sqrt{1-\bar
+\alpha_t}}\epsilon)$</span>，再在这个均值上添加一个随机噪声 <span
+class="math inline"><em>x</em><sub><em>t</em> − 1</sub> = <em>μ</em><sub><em>θ</em></sub>(<em>x</em><sub><em>t</em></sub>, <em>t</em>) + <em>σ</em><sub><em>t</em></sub><strong>z</strong></span>，得到去噪图像的。</p>
+<p>一种现在更常见的操作是预测噪声：注意到上面对均值的预测中，由于 <span
+class="math inline"><em>x</em><sub><em>t</em></sub></span>
+可以直接作为输入，实际上只有噪声是需要预测的未知量。因此一个motivating
+的选择是： <span class="math display">$$
+\mu_\theta(x_t,t)=\frac{1}{\sqrt{\alpha_t}}(x_t-\frac{\beta_t}{\sqrt{1-\bar
+\alpha_t}}\epsilon_\theta(x_t,t))
+$$</span> 将其重新带回重写后的损失函数后可以得到： <span
+class="math display">$$
+L_{t-1}-C=\mathbb{E}_{x_0,\epsilon}[\frac{\beta_t^2}{2\sigma^2_t(1-\bar
+\alpha_t)}||\epsilon-\epsilon_\theta(\sqrt{\bar
+\alpha_t}x_0+\sqrt{1-\bar \alpha_t }\epsilon,t)||^2]
+$$</span></p>
 <p>这样做的好处是，网络只需要学习一个更为简洁的函数。</p>
 <blockquote>
 <p>[!note]</p>
-<p>$\epsilon_\theta$ 是噪声预测器，用来预测噪声，$\mu_\theta$ 用来预测去噪结果的均值。在这次重写中我们把一次采样过程分解为了两步：采样原始图像与采样噪声。</p>
-<p>这里有值得注意的一点：$\mathbf{z}$ 代表的并不是所谓的噪音，而是一种随机采样。这很像 VAE 中的重参数化技巧：去噪结果实际上也是一个随机变量，是神经网络无法学习的。但是我们可以通过学习这个分布的均值，并随机给这个均值加上一个高斯分布的采样结果，来实现随机化。</p>
+<p><span class="math inline"><em>ϵ</em><sub><em>θ</em></sub></span>
+是噪声预测器，用来预测噪声，<span
+class="math inline"><em>μ</em><sub><em>θ</em></sub></span>
+用来预测去噪结果的均值。在这次重写中我们把一次采样过程分解为了两步：采样原始图像与采样噪声。</p>
+<p>这里有值得注意的一点：<span
+class="math inline"><strong>z</strong></span>
+代表的并不是所谓的噪音，而是一种随机采样。这很像 VAE
+中的重参数化技巧：去噪结果实际上也是一个随机变量，是神经网络无法学习的。但是我们可以通过学习这个分布的均值，并随机给这个均值加上一个高斯分布的采样结果，来实现随机化。</p>
 </blockquote>
-<h2 id="工程实现"><a href="#工程实现" class="headerlink" title="工程实现"></a>工程实现</h2><h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><h4 id="数据放缩"><a href="#数据放缩" class="headerlink" title="数据放缩"></a>数据放缩</h4><p>DDPM 在原始论文中指出，他们驶使用的图片数据集由 0-255 的整数构成。他们将数据范围从 0-255 线性地缩小到了 [-1,1]</p>
-<h4 id="解码器"><a href="#解码器" class="headerlink" title="解码器"></a>解码器</h4><p>在反向过程中，由于去噪过程中会出现对高斯分布采样结果的加减，这导致我们最后得到数据不一定能通过数据放缩的逆过程重新转化为 0-255 的整数。因此 ddpm 选择在 $x_1$ 进行去噪的过程中，直接计算每一个像素点是 0-255 的概率。解码公式如下：<br>$$<br>p_\theta(x_0|x_1)&#x3D;\prod_{i&#x3D;1}^D\int_{\delta__(x_0^i)}^{\delta_+(x_0^i)}\mathcal{N}(x;\mu_\theta^i(x_1,1),\sigma^2_1)dx<br>\<br>\delta^+(x) &#x3D;<br>\begin{cases}<br>+\infty, &amp; x &#x3D; 1 \<br>x + \tfrac{1}{255}, &amp; x &lt; 1<br>\end{cases}<br>\quad \quad<br>\delta^-(x) &#x3D;<br>\begin{cases}<br>-\infty, &amp; x &#x3D; -1 \<br>x - \tfrac{1}{255}, &amp; x &gt; -1<br>\end{cases}<br>$$<br>公式看上去吓人，但是实际上是一个很直观的结果：在预测完 $x_0$ 的均值后，我们得到一个关于这个均值的高斯分布。通过将这个分布在 x 轴等分 256 份，并计算每部分的面积，我们实际上就得到了高斯分布采样落在这每一部分的概率。第 k 份的区间是 $[k-\frac{1}{255},k+\frac{1}{255}]$，代表着落在整数 k 附近的概率。这样我们就得到了每个像素点取值的概率分布，我们可以根据不同的选取策略进行实际的赋值。</p>
-<h3 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> each training step:</span><br><span class="line">    x0 ~ dataset                          <span class="comment"># 从数据集中采样图像</span></span><br><span class="line">    t ~ Uniform(&#123;<span class="number">1</span>,...,T&#125;)                <span class="comment"># 随机选择一个时间步 t</span></span><br><span class="line">    ε ~ N(<span class="number">0</span>, I)                            <span class="comment"># 采样标准高斯噪声</span></span><br><span class="line">    xt = sqrt(alpha_bar_t)*x0 + sqrt(<span class="number">1</span>-alpha_bar_t)*ε  <span class="comment"># 添加噪声，alpha_bar_t = ∏_&#123;s=1&#125;^t (1-βs)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 预测噪声并计算损失</span></span><br><span class="line">    ε_theta = neural_net(xt, t)</span><br><span class="line">    loss = ||ε - ε_theta||^<span class="number">2</span>               <span class="comment"># L2损失</span></span><br><span class="line">    </span><br><span class="line">    θ = θ - lr * ∇_θ loss                  <span class="comment"># 更新网络参数</span></span><br></pre></td></tr></table></figure>
-<h3 id="生成过程"><a href="#生成过程" class="headerlink" title="生成过程"></a>生成过程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化</span></span><br><span class="line">x_T ~ N(<span class="number">0</span>, I)                             <span class="comment"># 从纯高斯噪声开始</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 逐步去噪</span></span><br><span class="line"><span class="keyword">for</span> t = T,...,<span class="number">2</span>:                          <span class="comment"># 注意最后一步单独处理</span></span><br><span class="line">    ε_theta = neural_net(x_t, t)          <span class="comment"># 预测噪声</span></span><br><span class="line">    μ_t = <span class="number">1</span>/sqrt(<span class="number">1</span>-β_t) * (x_t - β_t/sqrt(alpha_bar_t) * ε_theta)  <span class="comment"># 均值更新公式</span></span><br><span class="line">    z ~ N(<span class="number">0</span>, I)                            <span class="comment"># 随机高斯噪声</span></span><br><span class="line">    x_&#123;t-<span class="number">1</span>&#125; = μ_t + sqrt(β_t) * z         <span class="comment"># 采样下一步</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后一步 t = 1，使用离散解码器生成整数像素</span></span><br><span class="line">μ_1 = neural_net(x_1, <span class="number">1</span>)</span><br><span class="line">σ_1 = sqrt(β_1)</span><br><span class="line">x_0 = discretized_decoder(x_1, μ_1, σ_1)  <span class="comment"># 高斯积分得到 0-255 的像素值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> x_0                                <span class="comment"># 最终生成图像</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="接下来要干啥"><a href="#接下来要干啥" class="headerlink" title="接下来要干啥"></a>接下来要干啥</h2><p>注意到，在对 DDPM 的原理进行介绍的时候，并没有提到 prompt 的问题。这是因为  DDPM 是一个无条件模型，因此不能人为地控制 DDPM 图像的输出。因此产生了 CDDPM。另外，扩散模型的非平衡态热力学的原理看上去也十分有趣。在<del>不</del>遥远的未来，我将尝试对这两个方面进行探究。</p>
-<h2 id="证明附录"><a href="#证明附录" class="headerlink" title="证明附录"></a>证明附录</h2><h3 id="变分下界证明"><a href="#变分下界证明" class="headerlink" title="变分下界证明"></a>变分下界证明</h3><p>$$<br>\log p_\theta(x_0)&#x3D;\log \int p_\theta(x_{0:T})dx_{1:T}&#x3D;\log \int q(x_{1:T}|x_0)\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}dx_{1:T}<br>$$</p>
-<p>利用 Jensen 不等式：<br>$$<br>f(\mathbb{E}[X]) \le \mathbb{E}[f(X)], \text{where} f\text{ is convex}<br>$$<br>令 $X&#x3D;\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}\sim q, f&#x3D;\log$，可以得到：<br>$$<br>\log p_\theta(x_0) \ge \mathbb{E}[\log p_\theta(x_{0:T})-\log q(x_{1:T}|x_0)]<br>$$<br>将 $p_\theta$ 和 $q$ 展开得到：<br>$$<br>p_\theta(x_{0:T})&#x3D;p(x_T)\prod_{t&#x3D;1}^Tp_\theta(x_{t-1}|x_t)<br>\<br>q(x_{1:T}|x_0)&#x3D;\prod_{t&#x3D;1}^Tq(x_t|x_{t-1})<br>$$<br>将这两项带入上面不等式的右侧，可以得到：<br>$$<br>\log p_\theta(x_{0:T})-\log q(x_{1:T}|x_0) &#x3D; - \log p(x_T)-\sum_{t&#x3D;1}^T \log\frac{p_\theta(x_{t-1}|x_t)}{q(x_t|x_{t-1})}<br>$$<br>将结果带入回不等式的右侧，得到我们想要的结果。注意最后不等式的右边是两层期望：先对辅助分布 $q$ 求期望，再对 $x_0$ 求期望。</p>
-<h3 id="其它的"><a href="#其它的" class="headerlink" title="其它的"></a>其它的</h3><p>鸽了鸽了，写不动了(</p>
+<h2 id="工程实现">工程实现</h2>
+<h3 id="数据预处理">数据预处理</h3>
+<h4 id="数据放缩">数据放缩</h4>
+<p>DDPM 在原始论文中指出，他们驶使用的图片数据集由 0-255
+的整数构成。他们将数据范围从 0-255 线性地缩小到了 [-1,1]</p>
+<h4 id="解码器">解码器</h4>
+<p>在反向过程中，由于去噪过程中会出现对高斯分布采样结果的加减，这导致我们最后得到数据不一定能通过数据放缩的逆过程重新转化为
+0-255 的整数。因此 ddpm 选择在 <span
+class="math inline"><em>x</em><sub>1</sub></span>
+进行去噪的过程中，直接计算每一个像素点是 0-255 的概率。解码公式如下：
+<span class="math display">$$
+p_\theta(x_0|x_1)=\prod_{i=1}^D\int_{\delta_\_(x_0^i)}^{\delta_+(x_0^i)}\mathcal{N}(x;\mu_\theta^i(x_1,1),\sigma^2_1)dx
+\\
+\delta^+(x) =
+\begin{cases}
++\infty, &amp; x = 1 \\
+x + \tfrac{1}{255}, &amp; x &lt; 1
+\end{cases}
+\quad \quad
+\delta^-(x) =
+\begin{cases}
+-\infty, &amp; x = -1 \\
+x - \tfrac{1}{255}, &amp; x &gt; -1
+\end{cases}
+$$</span> 公式看上去吓人，但是实际上是一个很直观的结果：在预测完 <span
+class="math inline"><em>x</em><sub>0</sub></span>
+的均值后，我们得到一个关于这个均值的高斯分布。通过将这个分布在 x 轴等分
+256
+份，并计算每部分的面积，我们实际上就得到了高斯分布采样落在这每一部分的概率。第
+k 份的区间是 <span
+class="math inline">$[k-\frac{1}{255},k+\frac{1}{255}]$</span>，代表着落在整数
+k
+附近的概率。这样我们就得到了每个像素点取值的概率分布，我们可以根据不同的选取策略进行实际的赋值。</p>
+<h3 id="训练过程">训练过程</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> each training step:</span><br><span class="line">    x0 ~ dataset                          <span class="comment"># 从数据集中采样图像</span></span><br><span class="line">    t ~ Uniform(&#123;<span class="number">1</span>,...,T&#125;)                <span class="comment"># 随机选择一个时间步 t</span></span><br><span class="line">    ε ~ N(<span class="number">0</span>, I)                            <span class="comment"># 采样标准高斯噪声</span></span><br><span class="line">    xt = sqrt(alpha_bar_t)*x0 + sqrt(<span class="number">1</span>-alpha_bar_t)*ε  <span class="comment"># 添加噪声，alpha_bar_t = ∏_&#123;s=1&#125;^t (1-βs)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 预测噪声并计算损失</span></span><br><span class="line">    ε_theta = neural_net(xt, t)</span><br><span class="line">    loss = ||ε - ε_theta||^<span class="number">2</span>               <span class="comment"># L2损失</span></span><br><span class="line">    </span><br><span class="line">    θ = θ - lr * ∇_θ loss                  <span class="comment"># 更新网络参数</span></span><br></pre></td></tr></table></figure>
+<h3 id="生成过程">生成过程</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化</span></span><br><span class="line">x_T ~ N(<span class="number">0</span>, I)                             <span class="comment"># 从纯高斯噪声开始</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 逐步去噪</span></span><br><span class="line"><span class="keyword">for</span> t = T,...,<span class="number">2</span>:                          <span class="comment"># 注意最后一步单独处理</span></span><br><span class="line">    ε_theta = neural_net(x_t, t)          <span class="comment"># 预测噪声</span></span><br><span class="line">    μ_t = <span class="number">1</span>/sqrt(<span class="number">1</span>-β_t) * (x_t - β_t/sqrt(alpha_bar_t) * ε_theta)  <span class="comment"># 均值更新公式</span></span><br><span class="line">    z ~ N(<span class="number">0</span>, I)                            <span class="comment"># 随机高斯噪声</span></span><br><span class="line">    x_&#123;t-<span class="number">1</span>&#125; = μ_t + sqrt(β_t) * z         <span class="comment"># 采样下一步</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后一步 t = 1，使用离散解码器生成整数像素</span></span><br><span class="line">μ_1 = neural_net(x_1, <span class="number">1</span>)</span><br><span class="line">σ_1 = sqrt(β_1)</span><br><span class="line">x_0 = discretized_decoder(x_1, μ_1, σ_1)  <span class="comment"># 高斯积分得到 0-255 的像素值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> x_0                                <span class="comment"># 最终生成图像</span></span><br></pre></td></tr></table></figure>
+<h2 id="接下来要干啥">接下来要干啥</h2>
+<p>注意到，在对 DDPM 的原理进行介绍的时候，并没有提到 prompt
+的问题。这是因为 DDPM 是一个无条件模型，因此不能人为地控制 DDPM
+图像的输出。因此产生了
+CDDPM。另外，扩散模型的非平衡态热力学的原理看上去也十分有趣。在<del>不</del>遥远的未来，我将尝试对这两个方面进行探究。</p>
+<h2 id="证明附录">证明附录</h2>
+<h3 id="变分下界证明">变分下界证明</h3>
+<p><span class="math display">$$
+\log p_\theta(x_0)=\log \int p_\theta(x_{0:T})dx_{1:T}=\log \int
+q(x_{1:T}|x_0)\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}dx_{1:T}
+$$</span></p>
+<p>利用 Jensen 不等式： <span
+class="math display"><em>f</em>(𝔼[<em>X</em>]) ≤ 𝔼[<em>f</em>(<em>X</em>)], where<em>f</em>
+is convex</span> 令 <span
+class="math inline">$X=\frac{p_\theta(x_{0:T})}{q(x_{1:T}|x_0)}\sim q,
+f=\log$</span>，可以得到： <span
+class="math display">log <em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0</sub>) ≥ 𝔼[log <em>p</em><sub><em>θ</em></sub>(<em>x</em><sub>0 : <em>T</em></sub>) − log <em>q</em>(<em>x</em><sub>1 : <em>T</em></sub>|<em>x</em><sub>0</sub>)]</span>
+将 <span class="math inline"><em>p</em><sub><em>θ</em></sub></span> 和
+<span class="math inline"><em>q</em></span> 展开得到： <span
+class="math display">$$
+p_\theta(x_{0:T})=p(x_T)\prod_{t=1}^Tp_\theta(x_{t-1}|x_t)
+\\
+q(x_{1:T}|x_0)=\prod_{t=1}^Tq(x_t|x_{t-1})
+$$</span> 将这两项带入上面不等式的右侧，可以得到： <span
+class="math display">$$
+\log p_\theta(x_{0:T})-\log q(x_{1:T}|x_0) = - \log p(x_T)-\sum_{t=1}^T
+\log\frac{p_\theta(x_{t-1}|x_t)}{q(x_t|x_{t-1})}
+$$</span>
+将结果带入回不等式的右侧，得到我们想要的结果。注意最后不等式的右边是两层期望：先对辅助分布
+<span class="math inline"><em>q</em></span> 求期望，再对 <span
+class="math inline"><em>x</em><sub>0</sub></span> 求期望。</p>
+<h3 id="其它的">其它的</h3>
+<p>鸽了鸽了，写不动了(</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/09/03/DDPM/" data-id="cmf3xjsr90000cs0q9sjjdutp" data-title="DDPM" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/09/03/DDPM/" data-id="cmf3xzos40000g00q03nua4to" data-title="DDPM" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
