@@ -1,12 +1,10 @@
-
 ---
 layout: post
 title: understanding DDPM
 date: 2025-09-13 21:24:00
 description: a brief but strict understanding to DDPM
 tags: formatting math
-related_posts: false
-categories: AI
+categories: sample-posts
 ---
 # DDPM：扩散模型梦开始的地方
 
