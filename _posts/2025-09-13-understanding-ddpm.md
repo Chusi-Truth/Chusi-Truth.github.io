@@ -40,6 +40,7 @@ DDPM的核心思想是模仿物理世界中粒子扩散的过程。例如，一�
 加噪过程的每一步，都只与当前图像有关，而与再之前的图像无关。这说明，加噪过程是一个马尔科夫链。去噪过程我们也假设可以写成一个马尔科夫链。
 
 对于加噪过程，DDPM定义为：
+
 $$
 q(x_t|x_{t-1}):=\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t \mathbf{I})
 $$
@@ -237,7 +238,7 @@ $$
 
 ### 训练过程
 
-~~~python
+```python
 for each training step:
     x0 ~ dataset                          # 从数据集中采样图像
     t ~ Uniform({1,...,T})                # 随机选择一个时间步 t
@@ -249,9 +250,9 @@ for each training step:
     loss = ||ε - ε_theta||^2               # L2损失
     
     θ = θ - lr * ∇_θ loss                  # 更新网络参数
-~~~
+```
 ### 生成过程
-~~~python
+```python
 # 初始化
 x_T ~ N(0, I)                             # 从纯高斯噪声开始
 
@@ -268,7 +269,7 @@ for t = T,...,2:                          # 注意最后一步单独处理
 x_0 = discretized_decoder(x_1, μ_1, σ_1)  # 高斯积分得到 0-255 的像素值
 
 return x_0                                # 最终生成图像
-~~~
+```
 
 ## 接下来要干啥
 
