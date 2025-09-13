@@ -83,17 +83,6 @@ ninja.data = [{
             window.location.href = "/blog/2025/qwqlfulyou/";
           
         },
-      },{id: "post-understanding-ddpm",
-        
-          title: "Understanding Ddpm",
-        
-        description: "",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2025/understanding-ddpm/";
-          
-        },
       },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
