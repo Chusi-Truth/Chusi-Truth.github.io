@@ -1,7 +1,7 @@
 ---
 layout: post
 title: a post with math test
-date: 2025-09-13 22:39:00
+date: 2025-09-13 11:39:00
 description: test qwq
 tags: formatting math
 categories: sample-posts
