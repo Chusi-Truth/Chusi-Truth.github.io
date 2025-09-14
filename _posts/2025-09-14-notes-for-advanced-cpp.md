@@ -1,7 +1,7 @@
 ---
 layout: post
 title: notes for advanced C++
-date: 2025-09-14 14:00:00
+date: 2025-09-13 14:00:00
 description: Notes on the C++ section of the summer training program
 tags: C++
 categories: cs

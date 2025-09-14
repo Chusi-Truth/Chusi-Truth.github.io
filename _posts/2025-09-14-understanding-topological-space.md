@@ -1,7 +1,7 @@
 ---
 layout: post
 title: understanding topological space
-date: 2025-09-14 14:00:00
+date: 2025-09-13 14:00:00
 description: a brief understanding to topological space
 tags: measure theory
 categories: math
