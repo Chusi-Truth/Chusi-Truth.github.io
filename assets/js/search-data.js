@@ -83,6 +83,28 @@ ninja.data = [{
             window.location.href = "/blog/2025/understanding-ddpm/";
           
         },
+      },{id: "post-understanding-topological-space",
+        
+          title: "understanding topological space",
+        
+        description: "a brief understanding to topological space",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/understanding-topological-space/";
+          
+        },
+      },{id: "post-notes-for-advanced-c",
+        
+          title: "notes for advanced C++",
+        
+        description: "Notes on the C++ section of the summer training program",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/notes-for-advanced-cpp/";
+          
+        },
       },{id: "post-a-post-with-math-test",
         
           title: "a post with math test",

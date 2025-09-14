@@ -1,0 +1,185 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> notes for advanced C++ | You R. Name </title> <meta name="author" content="You R. Name"> <meta name="description" content="Notes on the C++ section of the summer training program"> <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://chusi-truth.github.io/blog/2025/notes-for-advanced-cpp/"> <script src="/assets/js/theme.js?a81d82887dd692e91686b43de4542f18"></script> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark"> <script>
+    initTheme();
+  </script> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <span class="font-weight-bold">You</span> R. Name </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about </a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications </a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects </a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">repositories </a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">cv </a> </li> <li class="nav-item "> <a class="nav-link" href="/teaching/">teaching </a> </li> <li class="nav-item "> <a class="nav-link" href="/people/">people </a> </li> <li class="nav-item dropdown "> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">submenus </a> <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> <a class="dropdown-item " href="/books/">bookshelf</a> <div class="dropdown-divider"></div> <a class="dropdown-item " href="/blog/">blog</a> </div> </li> <li class="nav-item"> <button id="search-toggle" title="Search" onclick="openSearchModal()"> <span class="nav-link">ctrl k <i class="ti ti-search"></i></span> </button> </li> <li class="toggle-container"> <button id="light-toggle" title="Change theme"> <i class="ti ti-sun-moon" id="light-toggle-system"></i> <i class="ti ti-moon-filled" id="light-toggle-dark"></i> <i class="ti ti-sun-filled" id="light-toggle-light"></i> </button> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">notes for advanced C++</h1> <p class="post-meta"> Created on September 13, 2025 </p> <p class="post-tags"> <a href="/blog/2025"> <i class="fa-solid fa-calendar fa-sm"></i> 2025 </a>   ·   <a href="/blog/tag/c"> <i class="fa-solid fa-hashtag fa-sm"></i> C++</a>   ·   <a href="/blog/category/cs"> <i class="fa-solid fa-tag fa-sm"></i> cs</a> </p> </header> <article class="post-content"> <div id="markdown-content"> <h1 id="c-进阶知识">C++ 进阶知识</h1> <p>建议大家到 Github clone 最新的<a href="https://github.com/Chusi-Truth/advanced_Cpp" rel="external nofollow noopener" target="_blank">项目仓库( master 分支)</a>，里面有最新的讲义和示例项目。本次课程会有比较多的实操，因此 clone 仓库后在课上同步进行操作是个不错的选择。</p> <h2 id="从源代码到可执行文件">从源代码到可执行文件</h2> <h3 id="一个-c-程序究竟是怎么跑起来的">一个 C++ 程序究竟是怎么跑起来的</h3> <p>在我们刚开始学习 C++ 的时候，我们运行程序的方法往往是使用 IDE，如 Visual Studio、CLion 等。IDE 会帮助我们完成编译、链接等步骤，最终生成可执行文件。我们只需要点击运行按钮，即可在 IDE 中看到程序的输出。</p> <p>在本节课程中，我们将学习如何手动编译 C++ 程序，了解编译、链接等步骤的具体内容。</p> <h3 id="过程总览">过程总览</h3> <p><img src="../assets/img/notes_cpp/flowChart.png" alt="流程图"></p> <h3 id="编译工具">编译工具</h3> <p>针对不同的应用场景和平台，各大厂家设计了不同的C++编译工具</p> <ul> <li> <p>MSVC（Microsoft Visual C++）：这是微软开发的一款 C++ 开发工具， Visual Studio 中就内置了 MSVC</p> </li> <li> <p>GCC（GNU Compiler Collection）：GCC 是由 GNU 开发的一套编译工具，支持多种语言。在本节课程中我们使用的编译工具就是 GCC（针对 C 的前端程序为 gcc，针对 C++ 的前端程序为 g++）</p> </li> </ul> <p>在本节课程中，我们使用 wsl 作为运行环境，当然，Windows 的环境也是可以的，你可以通过以下的代码完成 gcc 以及相关工具的安装</p> <p>Linux：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>build-essential cmake ninja-build
+</code></pre></div></div> <p>Windows:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//请以管理员身份运行 powershell
+Set-ExecutionPolicy RemoteSigned <span class="nt">-scope</span> CurrentUser
+irm get.scoop.sh | iex
+
+scoop bucket add main
+scoop bucket add extras
+
+scoop <span class="nb">install </span>gcc
+scoop <span class="nb">install </span>cmake
+</code></pre></div></div> <p>当然，在 Windows 环境中你也可以直接到 <a href="https://www.mingw-w64.org/downloads/" rel="external nofollow noopener" target="_blank">mingw</a> 和<a href="https://cmake.org/download/" rel="external nofollow noopener" target="_blank">CMake</a>的官网进行下载，并将 bin 目录添加到环境变量中。</p> <h3 id="预处理preprocessing">预处理(Preprocessing)</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-E</span> attack.cpp <span class="nt">-o</span> attack.i
+</code></pre></div></div> <p>作用：</p> <ul> <li>处理 #include, #define, #ifdef 等预处理命令。</li> <li>替换宏，展开头文件。</li> </ul> <p>输出：.i 文件（纯C++代码，无预处理指令）</p> <p>示例：../example/case1</p> <h3 id="编译compiling">编译(Compiling)</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-S</span> attack.i <span class="nt">-o</span> attack.s
+</code></pre></div></div> <p>这一步是编译原理课的重要内容，在这里只进行一些简单的介绍。，</p> <p>编译的五大步骤：</p> <ul> <li>词法分析</li> <li>语法分析</li> <li>语义分析与中间代码生成</li> <li>优化</li> <li>目标代码生成</li> </ul> <h4 id="词法分析">词法分析</h4> <p>在这一步中，词法分析器（Lexer）读取源代码，将其分解为一系列的标记（token）或词法分析单元（lexeme）。这些是编程语言中的基本元素，如关键字，标识符，字面量等。</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int a = 3 + 5; -&gt; [int] [a] [=] [3] [+] [5] [;]
+</code></pre></div></div> <h4 id="语法分析">语法分析</h4> <p>语法分析器使用由词法分析器生成的各个词法单元来创建树形的中间表示。该中间表示给出了词法分析产生的词法单元流的语法结构。一个比较常见的表示方法是语法树(syntax tree)，树中的每一个内部节点表示一个运算，而子节点表示该运算的分量。</p> <p>对于下面的代码：</p> <pre><code class="language-C++">damage=1.5*strength-defence
+</code></pre> <p>一颗比较符合直觉的语法分析树长成这样：</p> <p><img src="../assets/img/notes_cpp/syntaxTree1.png" alt="正确的语法分析树"></p> <p>但是也有可能长成这样：</p> <p><img src="../assets/img/notes_cpp/tree2.png" alt="不正确的语法分析树"></p> <p>这就是在编译中遇到的二义性问题。</p> <p>对于另外一组代码：</p> <pre><code class="language-C++">if(a&gt;1)
+    if(a==2)
+        std::cout&lt;&lt;"something1";
+    else
+        std::cout&lt;&lt;"something2";
+</code></pre> <p>同样地，编译器也并不知道 else 应该和哪个 if 配对。</p> <p>为了解决二义性的问题，我们引入上下文无关文法这个概念，并通过合理地设计这个文法，消除由算符优先级和 if-else 悬挂所引起的文法二义性。</p> <h5 id="上下文无关文法">上下文无关文法：</h5> <p>一个上下文无关文法是一个四元组，$ G= {V,\sum,R,S} $，其中 $V$ 是非终止符的集合， $\sum$ 是终止符的集合，$R$ 是产生式规则的集合，$S$ 是开始符号。</p> <p>一个简单的例子： $V={E}$ $\sum={a,b}$ $S \to E, E \to aEb | \epsilon$</p> <p>消除由运算符优先级引起的文法二义性</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;expr&gt;   ::= &lt;expr&gt; "+" &lt;term&gt;
+          | &lt;expr&gt; "-" &lt;term&gt;
+          | &lt;term&gt;
+
+&lt;term&gt;   ::= &lt;term&gt; "*" &lt;factor&gt;
+          | &lt;term&gt; "/" &lt;factor&gt;
+          | &lt;factor&gt;
+
+&lt;factor&gt; ::= "(" &lt;expr&gt; ")"
+          | number
+</code></pre></div></div> <p>消除由 if-else 悬挂引起的文法二义性</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;stmt&gt;           ::= &lt;matched_stmt&gt; | &lt;unmatched_stmt&gt;
+
+&lt;matched_stmt&gt;   ::= "if" "(" &lt;expr&gt; ")" &lt;matched_stmt&gt; "else" &lt;matched_stmt&gt;
+                  | &lt;other_stmt&gt;
+
+&lt;unmatched_stmt&gt; ::= "if" "(" &lt;expr&gt; ")" &lt;stmt&gt;
+                  | "if" "(" &lt;expr&gt; ")" &lt;matched_stmt&gt; "else" &lt;unmatched_stmt&gt;
+</code></pre></div></div> <h4 id="语义分析与中间代码生成">语义分析与中间代码生成</h4> <h5 id="语义分析semantic-analysis">语义分析（Semantic Analysis）</h5> <p>检查语义是否正确，确保程序含义合理 常见检查内容：</p> <ul> <li>类型检查（int ≠ string）</li> <li>变量是否已声明</li> <li>函数参数匹配</li> <li>作用域合法性</li> <li>构建符号表（Symbol Table）</li> </ul> <pre><code class="language-C++">int a = 3 + "hello";
+</code></pre> <h5 id="中间代码生成intermediate-code-generation">中间代码生成（Intermediate Code Generation）</h5> <p>将语义正确的代码转换为中间表示（IR） 典型形式：三地址码（Three Address Code</p> <pre><code class="language-C++">// 源码：
+a = b + c * d;
+</code></pre> <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span> <span class="err">三地址码：</span>
+<span class="py">t1</span> <span class="p">=</span> <span class="s">c * d</span>
+<span class="py">t2</span> <span class="p">=</span> <span class="s">b + t1</span>
+<span class="py">a</span> <span class="p">=</span> <span class="s">t2</span>
+</code></pre></div></div> <h4 id="优化optimization">优化（Optimization）</h4> <h5 id="目标">目标：</h5> <ul> <li>提高执行效率</li> <li>减少资源消耗</li> </ul> <h5 id="优化类型">优化类型：</h5> <ul> <li>中间代码优化（平台无关）</li> <li>目标代码优化（平台相关）</li> </ul> <h5 id="常见优化技术">常见优化技术：</h5> <table> <thead> <tr> <th>优化名</th> <th>示例前</th> <th>示例后</th> </tr> </thead> <tbody> <tr> <td>常量折叠</td> <td><code class="language-plaintext highlighter-rouge">x = 3 + 5;</code></td> <td><code class="language-plaintext highlighter-rouge">x = 8;</code></td> </tr> <tr> <td>死代码删除</td> <td><code class="language-plaintext highlighter-rouge">int a = 5; return 1;</code></td> <td><code class="language-plaintext highlighter-rouge">return 1;</code></td> </tr> <tr> <td>公共子表达式消除</td> <td><code class="language-plaintext highlighter-rouge">a = b + c; d = b + c;</code></td> <td><code class="language-plaintext highlighter-rouge">t = b + c; a = t; d = t;</code></td> </tr> <tr> <td>循环不变代码外提</td> <td>在循环中重复计算</td> <td>提前到循环外</td> </tr> <tr> <td>函数内联</td> <td><code class="language-plaintext highlighter-rouge">call foo()</code></td> <td>展开 <code class="language-plaintext highlighter-rouge">foo</code> 函数体</td> </tr> </tbody> </table> <p><img src="../assets/img/notes_cpp/spiderman.jpg" alt="C++梗图"></p> <h4 id="目标代码生成target-code-generation">目标代码生成（Target Code Generation）</h4> <h5 id="目标-1">目标：</h5> <p>将优化后的中间代码转换为平台相关的汇编代码或机器代码</p> <p>示例： 三地址码：</p> <div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">t1</span> <span class="p">=</span> <span class="s">c * d</span>
+<span class="py">t2</span> <span class="p">=</span> <span class="s">b + t1</span>
+<span class="py">a</span> <span class="p">=</span> <span class="s">t2</span>
+</code></pre></div></div> <p>对应 x86 汇编：</p> <pre><code class="language-asm">mov eax, [c]
+imul eax, [d]
+add eax, [b]
+mov [a], eax
+</code></pre> <h3 id="汇编">汇编</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-c</span> attack.s <span class="nt">-o</span> attack.o
+</code></pre></div></div> <p>汇编这一步将编译器生成的中间代码（汇编代码）翻译为机器码（一种包含机器指令的二进制格式文件），但尚未完成链接。</p> <p>.o 生成的文件不是人类可读的，但是如果你实在是好奇里面究竟有什么，可以在终端输入如下的指令：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>objdump <span class="nt">-d</span> attack.o
+</code></pre></div></div> <p>它会把机器码进行反汇编，输出的格式应该类似于：</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test.o:     file format pe-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 &lt;main&gt;:
+   0:   55                      push   %rbp
+   1:   48 89 e5                mov    %rsp,%rbp
+   4:   48 83 ec 30             sub    $0x30,%rsp
+   8:   e8 00 00 00 00          call   d &lt;main+0xd&gt;
+   d:   c7 45 fc 01 00 00 00    movl   $0x1,-0x4(%rbp)
+  14:   83 7d fc 01             cmpl   $0x1,-0x4(%rbp)
+  18:   75 16                   jne    30 &lt;main+0x30&gt;
+  1a:   48 8d 15 00 00 00 00    lea    0x0(%rip),%rdx        # 21 &lt;main+0x21&gt;
+  21:   48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 28 &lt;main+0x28&gt;
+  28:   48 89 c1                mov    %rax,%rcx
+  2b:   e8 00 00 00 00          call   30 &lt;main+0x30&gt;
+  30:   83 7d fc 02             cmpl   $0x2,-0x4(%rbp)
+  34:   75 18                   jne    4e &lt;main+0x4e&gt;
+  36:   48 8d 15 0b 00 00 00    lea    0xb(%rip),%rdx        # 48 &lt;main+0x48&gt;
+  3d:   48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 44 &lt;main+0x44&gt;
+  44:   48 89 c1                mov    %rax,%rcx
+  47:   e8 00 00 00 00          call   4c &lt;main+0x4c&gt;
+  4c:   eb 16                   jmp    64 &lt;main+0x64&gt;
+  4e:   48 8d 15 16 00 00 00    lea    0x16(%rip),%rdx        # 6b &lt;main+0x6b&gt;
+  55:   48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 5c &lt;main+0x5c&gt;
+  5c:   48 89 c1                mov    %rax,%rcx
+  5f:   e8 00 00 00 00          call   64 &lt;main+0x64&gt;
+  64:   b8 00 00 00 00          mov    $0x0,%eax
+  69:   48 83 c4 30             add    $0x30,%rsp
+  6d:   5d                      pop    %rbp
+  6e:   c3                      ret
+  6f:   90                      nop
+</code></pre></div></div> <h3 id="链接">链接</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ main.o foo.o <span class="nt">-o</span> program
+</code></pre></div></div> <p>链接将多个目标文件和库组织成一个完整的可执行文件或共享库。</p> <p>示例：../example/case2</p> <h4 id="静态链接">静态链接</h4> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ main.o foo.o <span class="nt">-o</span> program
+</code></pre></div></div> <p>所有的代码在链接阶段合并成一个单独的大文件，运行的时候无需依赖外部文件库。</p> <ul> <li>优点：部署简单，运行稳定</li> <li>缺点：文件体积大，重复冗余，不利于更新</li> </ul> <h4 id="动态链接">动态链接</h4> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ main.o <span class="nt">-o</span> program <span class="nt">-lfoo</span>
+</code></pre></div></div> <p>最终生成的可执行文件中包含对动态库的引用，例如 windows 中的 .dll 和 Linux 中的 .so</p> <ul> <li> <p>优点：节省空间，多个程序可以共享库，易于更新</p> </li> <li> <p>缺点：运行的时候需要依赖外部库，存在 <a href="https://zh.wikipedia.org/wiki/%E7%9B%B8%E4%BE%9D%E6%80%A7%E5%9C%B0%E7%8B%B1" rel="external nofollow noopener" target="_blank">依赖地狱</a></p> </li> </ul> <h4 id="静态库">静态库</h4> <p>代码被复制到最终的可执行文件中</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-c</span> math.cpp        <span class="c"># 编译成目标文件 math.o</span>
+ar rcs libmath.a math.o  <span class="c"># 打包成静态库</span>
+g++ main.cpp <span class="nt">-L</span><span class="nb">.</span> <span class="nt">-lmath</span> <span class="nt">-o</span> main  <span class="c"># 链接静态库</span>
+</code></pre></div></div> <p>rcs：这是一组参数，r代表 将 math.o 加入库中，c代表创建库文件，s代表生成符号索引。 -L. 表示在当前目录下寻找库文件 -lxxx 表示链接 libxxx.a</p> <h4 id="动态库">动态库</h4> <p>可执行文件运行时加载库文件</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-fPIC</span> <span class="nt">-shared</span> math.cpp <span class="nt">-o</span> libmath.dll  <span class="c"># 创建动态库</span>
+g++ main.cpp <span class="nt">-L</span><span class="nb">.</span> <span class="nt">-lmath</span> <span class="nt">-o</span> main           <span class="c"># 链接动态库（运行时需要 libmath.so）</span>
+</code></pre></div></div> <p>-fPIC 在 Linux 系统中用于生成可以在任意内存地址加载(位置无关代码)的共享库，对于 Windows系统不是必须的。</p> <h4 id="examplecase2-示例">../example/case2 示例</h4> <p>我们机器人的行为通过 behavior.h 头文件中的函数进行控制，通过动态链接，我们可以更新头文件，但是无需重新编译其它机器人的源代码。</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 编译动态库（Windows 下生成 .dll，Linux 下生成 .so）</span>
+g++ <span class="nt">-fPIC</span> <span class="nt">-shared</span> src/behavior.cpp <span class="nt">-o</span> libbehavior.so   <span class="c"># Linux</span>
+g++ <span class="nt">-fPIC</span> <span class="nt">-shared</span> src/act.cpp <span class="nt">-o</span> libact.so   <span class="c"># Linux</span>
+<span class="c"># 编译主程序并链接动态库</span>
+g++ src/run.cpp <span class="nt">-Iinclude</span> <span class="nt">-o</span> run <span class="nt">-L</span><span class="nb">.</span> <span class="nt">-lbehavior</span> <span class="nt">-Wl</span>,-rpath<span class="o">=</span><span class="nb">.</span>
+</code></pre></div></div> <h3 id="管理大型项目的构建makefile-与-cmake">管理大型项目的构建：Makefile 与 Cmake</h3> <h2 id="大型项目的构建">大型项目的构建</h2> <p>使用 g++ 构建项目时，在链接阶段 对源文件或目标文件的顺序有时有要求。例如，如果 firstFile.cpp 中定义了函数 foo，而 secondFile.cpp 中调用了该函数，那么链接命令中 firstFile.o 应出现在 secondFile.o 之后：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ secondFile.o firstFile.o <span class="nt">-o</span> program
+</code></pre></div></div> <p>此外，在构建大型项目时，由于源文件之间存在复杂的依赖关系（例如头文件修改会影响多个 .cpp 文件），手动判断哪些文件需要重新编译几乎不可能。使用 g++ 时通常只能粗暴地全量重新编译：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 下面的执行在../example/case3 下执行
+//创建一堆没有用的头文件，模拟大项目的高耗时
+./dummyCreator.sh
+//Win
+Measure-Command <span class="o">{</span> g++ src/<span class="k">*</span>.cpp <span class="nt">-Iinclude</span> <span class="nt">-o</span> run.exe <span class="o">}</span>
+//Linux
+<span class="nb">time </span>g++ src/<span class="k">*</span>.cpp <span class="nt">-Iinclude</span> <span class="nt">-o</span> run
+</code></pre></div></div> <p>这种方式虽简单，但随着项目体积增大，将极大影响构建效率。 因此，借助自动化构建工具如 Make 或 CMake，可以根据文件的修改时间自动判断依赖关系，只编译必要的文件，大幅缩短构建时间，提升开发效率。</p> <h3 id="makefile">Makefile</h3> <p>Makefile：经典的自动化构建系统 Make 是 Unix 系统中最常用的构建工具之一。通过编写 Makefile，开发者可以精确描述各个目标文件的依赖关系和构建规则。当某个源文件发生变动时，make 只会重新编译受影响的部分，而不是整个项目。</p> <p>例如，在一个包含多个源文件的项目中，如果只修改了 act.cpp，使用 make 时只会重新编译该文件及与之相关的目标文件，而不是所有 .cpp 文件。这种 增量编译 能显著缩短构建时间，尤其在包含上千个文件的大型工程中效果尤为明显。</p> <p>此外，Makefile 语法灵活，支持变量、条件判断、自动推导规则等机制，可以实现复杂的构建流程控制。</p> <p>然而，Makefile 的可读性较差（示例见下），在开发过程中一般不是手动编写的，而是由构建工具自动生成的。如 Cmake</p> <div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 编译器和参数
+</span><span class="nv">CXX</span> <span class="o">:=</span> g++
+<span class="nv">CXXFLAGS</span> <span class="o">:=</span> <span class="nt">-Iinclude</span> <span class="nt">-std</span><span class="o">=</span>c++17 <span class="nt">-Wall</span> <span class="nt">-ftemplate-depth</span><span class="o">=</span>11000
+
+<span class="c"># 源文件和目标文件
+</span><span class="nv">SRC</span> <span class="o">:=</span> <span class="p">$(</span>wildcard src/<span class="k">*</span>.cpp<span class="p">)</span>
+<span class="nv">OBJ</span> <span class="o">:=</span> <span class="p">$(</span>SRC:.cpp<span class="o">=</span>.o<span class="p">)</span>
+
+<span class="c"># 最终可执行文件名
+</span><span class="nv">TARGET</span> <span class="o">:=</span> run.exe
+
+<span class="c"># 默认目标
+</span><span class="nl">all</span><span class="o">:</span> <span class="nf">$(TARGET)</span>
+
+<span class="c"># 链接
+</span><span class="nl">$(TARGET)</span><span class="o">:</span> <span class="nf">$(OBJ)</span>
+    <span class="err">$(CXX)</span> <span class="err">$(OBJ)</span> <span class="err">-o</span> <span class="err">$@</span>
+
+<span class="c"># 编译每个 .cpp 为 .o
+</span><span class="nl">src/%.o</span><span class="o">:</span> <span class="nf">src/%.cpp</span>
+    <span class="err">$(CXX)</span> <span class="err">$(CXXFLAGS)</span> <span class="err">-c</span> <span class="err">$&lt;</span> <span class="err">-o</span> <span class="err">$@</span>
+
+<span class="c"># 清理构建产物
+</span><span class="nl">clean</span><span class="o">:</span>
+    <span class="err">del</span> <span class="err">/Q</span> <span class="err">src\*.o</span> <span class="err">$(TARGET)</span> <span class="err">2&gt;nul</span> <span class="err">||</span> <span class="err">true</span>
+
+<span class="c"># 伪目标，避免和文件重名
+</span><span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">all clean</span>
+</code></pre></div></div> <h3 id="cmake">CMake</h3> <h4 id="cmakeliststxt">CMakelists.txt</h4> <p>CMakeLists.txt 是 CMake 的核心配置文件，用于描述项目的构建规则和设置。每个 CMake 项目根目录下必须包含一个 CMakeLists.txt，子目录也可以包含各自的 CMakeLists.txt，用于模块化管理。</p> <h5 id="基本结构示例">基本结构示例</h5> <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 指定最低CMake版本要求</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.12<span class="p">)</span>
+
+<span class="c1"># 定义项目名称和使用语言</span>
+<span class="nb">project</span><span class="p">(</span>DemoProject LANGUAGES CXX<span class="p">)</span>
+
+<span class="c1"># 设置C++标准</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD 17<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD_REQUIRED ON<span class="p">)</span>
+
+<span class="c1"># 包含头文件目录</span>
+<span class="nb">include_directories</span><span class="p">(</span>include<span class="p">)</span>
+
+<span class="c1"># 收集源文件</span>
+<span class="nb">file</span><span class="p">(</span>GLOB SOURCES src/*.cpp<span class="p">)</span>
+
+<span class="c1"># 添加可执行文件目标</span>
+<span class="nb">add_executable</span><span class="p">(</span>run <span class="si">${</span><span class="nv">SOURCES</span><span class="si">}</span><span class="p">)</span>
+
+<span class="c1"># 添加编译选项（可选）</span>
+<span class="nb">target_compile_options</span><span class="p">(</span>run PRIVATE -Wall -Wextra<span class="p">)</span>
+</code></pre></div></div> <h5 id="分目录项目管理">分目录项目管理</h5> <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 添加子目录，递归处理子目录中的CMakeLists.txt</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span>src<span class="p">)</span>
+</code></pre></div></div> <h5 id="编译选项和宏定义">编译选项和宏定义</h5> <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">target_compile_definitions</span><span class="p">(</span>run PRIVATE DEBUG_MODE<span class="p">)</span>
+<span class="nb">target_compile_options</span><span class="p">(</span>run PRIVATE -O2 -Wall<span class="p">)</span>
+</code></pre></div></div> <h5 id="变量与条件判断">变量与条件判断</h5> <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">if</span><span class="p">(</span>WIN32<span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"Building on Windows"</span><span class="p">)</span>
+<span class="nb">elseif</span><span class="p">(</span>UNIX<span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span>STATUS <span class="s2">"Building on Unix/Linux"</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+</code></pre></div></div> <h5 id="链接第三方库">链接第三方库</h5> <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set</span><span class="p">(</span>CMAKE_PREFIX_PATH <span class="s2">"/path/to/custom/lib/cmake"</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span>SomeLib REQUIRED<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>run PRIVATE SomeLib::SomeLib<span class="p">)</span>
+</code></pre></div></div> <h4 id="1-使用-unix-makefiles-生成器">1. 使用 Unix Makefiles 生成器</h4> <p>这是 CMake 默认在类 Unix 系统上的生成器。 会生成传统的 Makefile 文件，使用 make 命令进行构建。 适合习惯用 make 的用户，支持丰富的命令行参数。</p> <h5 id="典型流程">典型流程</h5> <p>在项目根目录执行：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake <span class="nt">-G</span> <span class="s2">"Unix Makefiles"</span> <span class="nt">-S</span> <span class="nb">.</span> <span class="nt">-B</span> build
+<span class="c"># 进入构建目录，执行构建</span>
+make <span class="nt">-C</span> build
+<span class="c"># 运行程序</span>
+./build/bin/run
+</code></pre></div></div> <h4 id="2-使用-ninja-生成器">2. 使用 Ninja 生成器</h4> <p>Ninja 是一个专门设计用于快速构建的小型构建系统。 CMake 生成 build.ninja 文件，使用 ninja 命令构建。 速度快，支持更细粒度的增量构建。</p> <h5 id="典型流程-1">典型流程</h5> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 生成 Ninja 构建文件</span>
+cmake <span class="nt">-G</span> Ninja <span class="nt">-S</span> <span class="nb">.</span> <span class="nt">-B</span> build
+<span class="c"># 构建项目</span>
+cmake <span class="nt">--build</span> build <span class="nt">--</span> <span class="nt">--quiet</span>
+<span class="c"># 运行程序</span>
+./build/bin/run
+</code></pre></div></div> <p>或者直接使用 ninja 命令：</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ninja <span class="nt">-C</span> build <span class="nt">--quiet</span>
+</code></pre></div></div> <h4 id="3-注意事项">3. 注意事项</h4> <p>构建目录只能对应一种生成器，切换生成器前要清理旧构建目录或使用新目录。 在 WSL 里可用的生成器还有 Ninja、Unix Makefiles 及其它（但最常用的是这两种）。 Windows 原生环境常用的生成器是 Visual Studio。</p> <h2 id="作业">作业</h2> <p>见 assignment/hw.md</p> <h2 id="参考资料">参考资料</h2> <ul> <li><a href="https://cloud.tsinghua.edu.cn/d/ca958715a8ea4e91a0ac/files/?p=%2F%E8%AE%B2%E4%B9%89%2F5_C%2B%2B%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E4%BB%8B%E7%BB%8D.pdf" rel="external nofollow noopener" target="_blank">往年暑培讲义</a></li> <li><a href="https://cmake.org/documentation/" rel="external nofollow noopener" target="_blank">CMake 官方文档</a></li> <li> <a href="https://github.com/ttroy50/cmake-examples" rel="external nofollow noopener" target="_blank">cmake-examples</a> 该 GitHub 仓库中有很多开箱即用的 CMake 实例。</li> <li> <a href="https://www.zhihu.com/question/461953861/answer/1914452432" rel="external nofollow noopener" target="_blank">为什么编译 c/c++要用 makefile，而不是直接用 shell 呢？</a> 这篇博文详细地阐述了使用 makefile 的动机和意义（\xfgg/）。</li> <li> <a href="https://seisman.github.io/how-to-write-makefile/introduction.html" rel="external nofollow noopener" target="_blank">跟我一起写 Makefile</a> Makefile 教程。从中大家也可以看出 Makefile 的语法十分不友好…</li> <li><a href="https://zh.z-library.sk/book/5668399/1c0fd2/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%9B%E4%B9%A6%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%AC2%E7%89%88.html" rel="external nofollow noopener" target="_blank">编译原理</a></li> </ul> </div> </article> </div> </div> <footer class="fixed-bottom" role="contentinfo"> <div class="container mt-0"> © Copyright 2025 You R. Name. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Photos from <a href="https://unsplash.com" target="_blank" rel="external nofollow noopener">Unsplash</a>. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="/assets/js/bootstrap.bundle.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js" integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script> <script defer src="/assets/js/masonry.js?a0db7e5d5c70cc3252b3138b0c91dcaf" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script> <script src="/assets/js/no_defer.js?2781658a0a2b13ed609542042a859126"></script> <script defer src="/assets/js/common.js?e0514a05c5c95ac1a93a8dfd5249b92e"></script> <script defer src="/assets/js/copy_code.js?c8a01c11a92744d44b093fc3bda915df" type="text/javascript"></script> <script defer src="/assets/js/jupyter_new_tab.js?d9f17b6adc2311cbabd747f4538bb15f"></script> <script async src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script> <script async src="https://badge.dimensions.ai/badge.js"></script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI=" crossorigin="anonymous"></script> <script src="/assets/js/mathjax-setup.js?a5bb4e6a542c546dd929b24b8b236dfd"></script> <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6" crossorigin="anonymous"></script> <script defer src="/assets/js/progress-bar.js?2f30e0e6801ea8f5036fa66e1ab0a71a" type="text/javascript"></script> <script src="/assets/js/vanilla-back-to-top.min.js?f40d453793ff4f64e238e420181a1d17"></script> <script>
+    addBackToTop();
+  </script> <script type="module" src="/assets/js/search/ninja-keys.min.js?a3446f084dcaecc5f75aa1757d087dcf"></script> <ninja-keys hidebreadcrumbs noautoloadmdicons placeholder="Type to start searching"></ninja-keys> <script src="/assets/js/search-setup.js?6c304f7b1992d4b60f7a07956e52f04a"></script> <script src="/assets/js/search-data.js"></script> <script src="/assets/js/shortcut-key.js?6f508d74becd347268a7f822bca7309d"></script> </body> </html>
