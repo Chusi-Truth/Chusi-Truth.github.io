@@ -72,7 +72,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-a-post-with-math-test",
+            },{id: "post-understanding-ddpm",
+        
+          title: "understanding DDPM",
+        
+        description: "a brief but strict understanding to DDPM",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/understanding-ddpm/";
+          
+        },
+      },{id: "post-a-post-with-math-test",
         
           title: "a post with math test",
         
