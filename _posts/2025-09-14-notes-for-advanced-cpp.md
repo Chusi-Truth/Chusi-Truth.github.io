@@ -23,7 +23,7 @@ related_posts: false
 
 ### 过程总览
 
-![流程图](./assets/flowChart.png)
+![流程图](../assets/img/notes_cpp/flowChart.png)
 
 ### 编译工具
 
@@ -106,11 +106,11 @@ damage=1.5*strength-defence
 
 一颗比较符合直觉的语法分析树长成这样：
 
-![正确的语法分析树](./assets/syntaxTree1.png)
+![正确的语法分析树](../assets/img/notes_cpp/syntaxTree1.png)
 
 但是也有可能长成这样：
 
-![不正确的语法分析树](./assets/tree2.png)
+![不正确的语法分析树](../assets/img/notes_cpp/tree2.png)
 
 这就是在编译中遇到的二义性问题。
 
@@ -212,7 +212,7 @@ a = t2
 | 函数内联     | `call foo()`            | 展开 `foo` 函数体               |
 
 
-![C++梗图](./assets/spiderman.jpg)
+![C++梗图](../assets/img/notes_cpp/spiderman.jpg)
 
 #### 目标代码生成（Target Code Generation）
 ##### 目标：
