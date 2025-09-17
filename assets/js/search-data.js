@@ -72,7 +72,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/blog/";
               },
-            },{id: "post-understanding-ddpm",
+            },{id: "post-求导与分布的高维视角",
+        
+          title: "求导与分布的高维视角",
+        
+        description: "矩阵求导与多元分布",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/matrix-differentiation/";
+          
+        },
+      },{id: "post-understanding-ddpm",
         
           title: "understanding DDPM",
         
