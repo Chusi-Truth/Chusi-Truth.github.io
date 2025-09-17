@@ -61,14 +61,14 @@ $$
 
 $$
 dy=\text{tr}[(\frac{\partial y}{\partial X})^TdX]
-
 $$
+
 经过展开验证，我们很容易证明 $(\frac{\partial y}{\partial  X})^TdX$ 的对角线元素 $a_{ij}$ 满足：
 
 $$
 a_{ij}=\sum_{k=1}^m(\frac{\partial y}{\partial X})^T_{ik}dX_{kj}=\sum_{k=1}^m(\frac{\partial y}{\partial X})_{ki}dX_{kj}
-
 $$
+
 因此，
 
 $$
@@ -84,14 +84,17 @@ $$
 实际上，我们往往通过对函数作微分，转换成 $dy=\text{tr}[(\frac{\partial y}{\partial X})^TdX]$ 的形式来求导。因此，了解微分的运算法则极其重要。
 
 $$
-d(X+Y)=dX+dY\\
-d(XY)=d(X)Y+X(dY)\\
-d(X^T)=(dX)^T\\
-d(\text{tr}(X))=\text{tr}(dX)\\
-d(X \odot Y)=dX \odot Y+X \odot dY\\
-d\sigma(X)=\sigma'(X)\odot dX\\
-d(X^{-1})=-X^{-1}dXX^{-1}\\
+\begin{aligned}
+d(X+Y) &= dX + dY \\
+d(XY) &= dX \, Y + X \, dY \\
+d(X^T) &= (dX)^T \\
+d(\mathrm{tr}(X)) &= \mathrm{tr}(dX) \\
+d(X \odot Y) &= dX \odot Y + X \odot dY \\
+d\sigma(X) &= \sigma'(X) \odot dX \\
+d(X^{-1}) &= -X^{-1} dX X^{-1}
+\end{aligned}
 $$
+
 
 ### 迹的运算法则
 
