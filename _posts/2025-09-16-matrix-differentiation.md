@@ -101,11 +101,13 @@ $$
 在计算过程中，给矩阵套上一层 tr 不仅仅式公式形式上的要求，也可以帮助我们在具体计算的时候提供很多帮助。
 
 $$
+\begin{aligned}
 \text{tr}(A+B)=\text{tr}(A)+\text(tr)B\\
 \text{tr}(AB)=\text{tr}(BA)\\
 \text{tr}(A)=\text{tr}(A^T)\\
 \text{tr}(\text{tr}(A))=\text{tr}(A)\\
 \text{tr}((A \odot B)^TC)=\text{tr}(A^T(B \odot C))
+\end{aligned}
 $$
 
 ### 计算示例
