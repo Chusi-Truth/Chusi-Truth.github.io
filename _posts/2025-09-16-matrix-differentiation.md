@@ -22,6 +22,7 @@ related_posts: false
 ### 向量对向量求导
 
 向量对向量求导可以看作标量对向量求导的扩展。注意到标量对向量求导可以看作一个向量，那么向量与向量相乘可以看作是一个矩阵。自然地拓展出两种形式：
+
 $$
 \begin{bmatrix}
 \frac{\partial y_1}{\partial x_1} & \cdots & \frac{\partial y_1}{\partial x_n}\\
@@ -44,6 +45,7 @@ $$
 ### 标量对矩阵求导
 
 标量对矩阵求导也可以看成标量对向量求导的拓展，形式上也十分直观：逐元素对 $y$ 求偏导，并排成和 $X$ 形状相同的矩阵。
+
 $$
 \frac{\partial y}{\partial X}=
 \begin{bmatrix}
@@ -56,17 +58,23 @@ $$
 ### 统一标量对向量、矩阵求导的形式
 
 上文提到一个由向量作为输入的标量函数的微分可以写成 $dy=[\frac{\partial y}{\partial x_1}...\frac{\partial y}{\partial x_n}]^T[dx_1...dx_n]$ ，我们希望标量对矩阵求导也能写成类似的形式。实际上对于标量对矩阵求导我们有：
+
 $$
 dy=\text{tr}[(\frac{\partial y}{\partial X})^TdX]
+
 $$
 经过展开验证，我们很容易证明 $(\frac{\partial y}{\partial  X})^TdX$ 的对角线元素 $a_{ij}$ 满足：
+
 $$
 a_{ij}=\sum_{k=1}^m(\frac{\partial y}{\partial X})^T_{ik}dX_{kj}=\sum_{k=1}^m(\frac{\partial y}{\partial X})_{ki}dX_{kj}
+
 $$
 因此，
+
 $$
 dy=\text{tr}[(\frac{\partial y}{\partial X})^TdX]=\sum_{i,j}(\frac{\partial y}{\partial X})_{ij}dX_{ij}
 $$
+
 这正是我们求微分的形式。
 
 ## 矩阵微分与迹的运算法则
@@ -74,6 +82,7 @@ $$
 ### 矩阵微分的运算法则
 
 实际上，我们往往通过对函数作微分，转换成 $dy=\text{tr}[(\frac{\partial y}{\partial X})^TdX]$ 的形式来求导。因此，了解微分的运算法则极其重要。
+
 $$
 d(X+Y)=dX+dY\\
 d(XY)=d(X)Y+X(dY)\\
@@ -87,6 +96,7 @@ $$
 ### 迹的运算法则
 
 在计算过程中，给矩阵套上一层 tr 不仅仅式公式形式上的要求，也可以帮助我们在具体计算的时候提供很多帮助。
+
 $$
 \text{tr}(A+B)=\text{tr}(A)+\text(tr)B\\
 \text{tr}(AB)=\text{tr}(BA)\\
@@ -102,18 +112,22 @@ $$
 #### 最小二乘的导数
 
 最小二乘目的最小化：
+
 $$
 l=||Ax-y||_2^2=(Ax-y)^T(Ax-y)
 $$
 
 以下是一个详细的推导：
+
 $$
 dl=d[((Ax-y)^T(Ax-y))]\\
 =d(Ax-y)^T(Ax-y)+(Ax-y)^Td(Ax-y)\\
 =dx^TA^T(Ax-y)+(Ax-y)^TAdx\\
 =\text{tr}(...)=\text{tr}[2(Ax-y)^TAdx]
 $$
+
 因此，
+
 $$
 \frac{\partial l}{\partial x}=2A^T(Ax-y)
 $$
@@ -121,14 +135,19 @@ $$
 #### 二次型的导数
 
 考虑二次型：
+
 $$
 y=x^TAx
 $$
+
 以 $x$ 为自变量进行求导：
+
 $$
 dy=d(x^TAx)=dx^TAx+x^TAdx=\text{tr}(x^TA^Tdx+x^TAdx)
 $$
+
 因此，
+
 $$
 \frac{\partial y}{\partial x}=(A+A^T)x
 $$
@@ -186,10 +205,13 @@ $$p(\mathbf{x}_b|\mathbf{x}_a) = \mathcal{N}_{\mathbf{x}_b}(\hat{\mu}_b, \hat{\S
 #### 线性组合的性质
 
 如果
+
 $$
 x \sim \mathcal{N}(\mu_x,\Sigma_x) \quad y \sim \mathcal{N}(\mu_x,\Sigma_y)
 $$
+
 那么
+
 $$
 Ax+By+c \sim \mathcal{N}(A\mu_x+B\mu_y+c,A\Sigma A^T+B\Sigma_yB^T)
 $$
